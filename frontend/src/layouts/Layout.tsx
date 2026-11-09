@@ -31,7 +31,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const visible = menuItems.filter(i => i.roles.includes('*') || i.roles.some(r => user?.roles?.includes(r)))
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 relative">
+    <div className={`min-h-screen bg-slate-950 text-slate-200 relative ${sidebarOpen ? 'overflow-hidden' : ''}`}>
       {/* Mobile hamburger */}
       <button
         onClick={() => setSidebarOpen(true)}
@@ -50,7 +50,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-[260px] border-r border-slate-800/80 bg-gradient-to-b from-slate-900 to-slate-950 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:relative lg:static lg:shadow-none lg:border-r lg:border-slate-800/80`}
+        className={`fixed inset-y-0 left-0 z-50 w-[260px] border-r border-slate-800/80 bg-gradient-to-b from-slate-900 to-slate-950 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:shadow-none lg:border-r lg:border-slate-800/80`}
       >
         <div className="flex items-center justify-between p-5 border-b border-slate-800/60">
           <div className="flex items-center gap-3">
@@ -94,7 +94,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </aside>
 
       {/* Main content */}
-      <main className={`min-h-screen p-4 sm:p-6 lg:p-8 ${sidebarOpen ? 'lg:ml-[260px]' : ''}`}>
+      <main className={`min-h-screen p-4 sm:p-6 lg:p-8 lg:ml-[260px] z-10`}>
         <div className="mx-auto max-w-7xl">{children}</div>
       </main>
     </div>
