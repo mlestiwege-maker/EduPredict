@@ -1,0 +1,12 @@
+{
+  "institution": "Bindura University of Science Education (BUSE)",
+  "data_type": "synthetic_demo",
+  "records": {
+    "students": 300,
+    "enrolments": 696,
+    "attendance": 696,
+    "assessments": 1392,
+    "lms_activity": 696
+  },
+  "note": "Synthetic data for tertiary project demo. Do not present as real BUSE records."
+}

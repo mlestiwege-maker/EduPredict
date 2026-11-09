@@ -1,0 +1,21 @@
+/* Layout.css - Styles for the main layout */
+
+.layout-container {
+  @apply flex h-screen bg-gray-50;
+}
+
+.sidebar {
+  @apply w-64 bg-white border-r border-gray-200 flex flex-col;
+}
+
+.main-content {
+  @apply flex-1 flex flex-col overflow-hidden;
+}
+
+.header {
+  @apply bg-white border-b border-gray-200 px-6 py-4;
+}
+
+.content {
+  @apply flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6;
+}

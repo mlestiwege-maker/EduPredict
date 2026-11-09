@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+frontend/dist/
+backend/edupredict.db
+
+# ML models and data (large files)
+ml/models/*.joblib
+ml/data/sample/buse/*.csv
+ml/reports/*.json
+ml/reports/generated/
+
+# Logs
+*.log
+/tmp/*
+
+# Secret keys
+backend/.env
+frontend/.env
