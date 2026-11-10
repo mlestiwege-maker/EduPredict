@@ -1,6 +1,5 @@
 # FastAPI
 fastapi==0.110.0
-uvicorn==0.29.0
 uvicorn[standard]==0.29.0
 python-multipart==0.0.9
 python-jose[cryptography]==3.3.0
@@ -14,18 +13,12 @@ asyncpg==0.29.0
 psycopg2-binary==2.9.9
 
 # Data Processing
-pandas==2.2.1
-numpy==1.26.4
+pandas>=2.2.0
+numpy>=1.26.0
 openpyxl==3.1.5
 
 # Machine Learning
-scikit-learn==1.4.1
-xgboost==2.0.3
-shap==0.45.0
-imbalanced-learn==0.13.0
-
-# Reports
-reportlab==4.0.7
+scikit-learn>=1.4.0
 
 # Security
 python-dotenv==1.0.1
