@@ -30,11 +30,11 @@ def run():
             except Exception: pass
         cx.execute(text('insert into departments(name,code,description) values (:n,:c,:d)'), [dict(n=r.department_name,c=r.department_code,d=f'BUSE {r.department_name}') for r in dep.itertuples()])
         dep_map = {r.code:i for i,r in enumerate(cx.execute(text('select id,code from departments')).mappings(),1)}
-        cx.execute(text('insert into academic_periods(year,semester,term_start,term_end,is_active) values (:y,:s,:ts,:te,:a)'), [dict(y=int(r.year),s=r.period_code,ts=str(r.term_start),te=str(r.term_end),a=int(r.is_active)) for r in per.itertuples()])
+        cx.execute(text('insert into academic_periods(year,semester,term_start,term_end,is_active) values (:y,:s,:ts,:te,:a)'), [dict(y=int(r.year),s=r.period_code,ts=str(r.term_start),te=str(r.term_end),a=bool(r.is_active)) for r in per.itertuples()])
         per_map = {r.semester:r.id for r in cx.execute(text('select id,semester from academic_periods')).mappings()}
-        cx.execute(text('insert into programmes(name,code,department_id,level,duration_years,is_active) values (:n,:c,:d,:l,:dur,:a)'), [dict(n=r.programme_name,c=r.programme_code,d=dep_map[r.department_code],l=r.level,dur=int(r.duration_years),a=1) for r in prog.itertuples()])
+        cx.execute(text('insert into programmes(name,code,department_id,level,duration_years,is_active) values (:n,:c,:d,:l,:dur,:a)'), [dict(n=r.programme_name,c=r.programme_code,d=dep_map[r.department_code],l=r.level,dur=int(r.duration_years),a=True) for r in prog.itertuples()])
         prog_map = {r.code:r.id for r in cx.execute(text('select id,code from programmes')).mappings()}
-        cx.execute(text('insert into courses(code,name,department_id,credits,level,is_active) values (:c,:n,:d,:cr,:l,:a)'), [dict(c=r.course_code,n=r.course_name,d=dep_map[r.department_code],cr=int(r.credits),l=str(r.level),a=1) for r in crs.itertuples()])
+        cx.execute(text('insert into courses(code,name,department_id,credits,level,is_active) values (:c,:n,:d,:cr,:l,:a)'), [dict(c=r.course_code,n=r.course_name,d=dep_map[r.department_code],cr=int(r.credits),l=str(r.level),a=True) for r in crs.itertuples()])
         crs_map = {r.code:r.id for r in cx.execute(text('select id,code from courses')).mappings()}
         cx.execute(text('insert into students(pseudonym,programme_id,year_of_study,enrollment_status,age_band,gender,residence_type,funding_type) values (:p,:pr,:y,:es,:ab,:g,:rt,:ft)'), [dict(p=r.student_pseudonym,pr=prog_map[r.programme_code],y=int(r.year_of_study),es=r.enrollment_status,ab=r.age_band,g=r.gender,rt=r.residence_type,ft=r.funding_type) for r in stu.itertuples()])
         stu_map = {r.pseudonym:r.id for r in cx.execute(text('select id,pseudonym from students')).mappings()}
@@ -47,7 +47,7 @@ def run():
             seen.add(k); dedup.append(r)
         cx.execute(text('insert into course_enrolments(student_id,course_id,period_id,credit_load,enrollment_date) values (:s,:c,:p,:cl,:ed)'), dedup)
         cx.execute(text('insert into attendance_records(student_id,course_id,period_id,sessions_scheduled,sessions_attended,attendance_rate,weekly_attendance) values (:s,:c,:p,:ss,:sa,:ar,:wa)'), [dict(s=stu_map[r.student_pseudonym],c=crs_map[r.course_code],p=per_map[r.period_code],ss=int(r.sessions_scheduled),sa=int(r.sessions_attended),ar=float(r.attendance_rate),wa='[]') for r in att.itertuples() if r.student_pseudonym in stu_map and r.course_code in crs_map and r.period_code in per_map])
-        asm_rows=[dict(s=stu_map[r.student_pseudonym],c=crs_map[r.course_code],p=per_map[r.period_code],at=r.assessment_type,an=r.assessment_name,ms=float(r.max_score),sc=float(r.score),pc=float(r.score),sd='2025-09-15',isub=int(r.is_submitted),il=int(r.is_late),dl=int(r.is_late)*2,ad='2025-09-15') for r in asm.itertuples() if r.student_pseudonym in stu_map and r.course_code in crs_map and r.period_code in per_map]
+        asm_rows=[dict(s=stu_map[r.student_pseudonym],c=crs_map[r.course_code],p=per_map[r.period_code],at=r.assessment_type,an=r.assessment_name,ms=float(r.max_score),sc=float(r.score),pc=float(r.score),sd='2025-09-15',isub=bool(r.is_submitted),il=bool(r.is_late),dl=int(r.is_late)*2,ad='2025-09-15') for r in asm.itertuples() if r.student_pseudonym in stu_map and r.course_code in crs_map and r.period_code in per_map]
         seen=set(); dedup=[]
         for r in asm_rows:
             k=(r['s'],r['c'],r['p'],r['an'])
