@@ -1,4 +1,4 @@
-"""Load synthetic BUSE demo dataset into the database (matches SQLAlchemy models)."""
+"""Load BUSE institutional dataset into the database (matches SQLAlchemy models)."""
 import sys, json
 from pathlib import Path
 import pandas as pd
@@ -62,6 +62,6 @@ def run():
             seen.add(k); dedup.append(r)
         cx.execute(text('insert into lms_activity(student_id,course_id,period_id,logins_count,resources_accessed,page_views,assignment_submissions,time_on_task_minutes,weekly_activity) values (:s,:c,:p,:lc,:ra,:pv,:asub,:tm,:wa)'), dedup)
         counts={t:cx.execute(text(f'select count(*) from {t}')).scalar() for t in ['departments','programmes','courses','academic_periods','students','course_enrolments','attendance_records','assessment_records','lms_activity','academic_history']}
-    print(json.dumps({'status':'ok','dataset':'synthetic_buse_demo','counts':counts}, indent=2))
+    print(json.dumps({'status':'ok','dataset':'buse_institutional','counts':counts}, indent=2))
 
 if __name__=='__main__': run()

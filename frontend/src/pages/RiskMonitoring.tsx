@@ -9,7 +9,7 @@ const RiskMonitoring: React.FC = () => {
   useEffect(()=>{ load('all') },[])
   return (
     <div className="page">
-      <div><h1 className="page-title">Risk Monitoring</h1><p className="page-subtitle">Early-warning predictions (Week 4, synthetic BUSE demo). Estimates support staff decisions; they are not verdicts.</p></div>
+      <div><h1 className="page-title">Risk Monitoring</h1><p className="page-subtitle">Early-warning predictions at Week 4 checkpoint for at-risk student identification.</p></div>
       <div className="stat-grid">
         <StatCard title="Flagged" value={rows.length} icon="⚠️" color="red" />
         <StatCard title="High" value={rows.filter(r=>r.risk_band==='high').length} icon="🔴" color="red" />

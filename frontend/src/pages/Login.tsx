@@ -48,9 +48,6 @@ const Login: React.FC = () => {
                 <p className="text-sm text-blue-200 mb-3">
                   Identify at-risk students early so lecturers and advisors can intervene while there is still time to act.
                 </p>
-                <p className="text-xs text-blue-300/70 mt-3">
-                  Prototype — synthetic demo data. Predictions are decision-support estimates, not verdicts.
-                </p>
               </div>
             </div>
           </div>

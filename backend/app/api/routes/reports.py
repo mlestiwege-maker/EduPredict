@@ -27,7 +27,7 @@ class ReportReq(BaseModel):
 def _excel(path: Path, title: str, rows):
     from openpyxl import Workbook
     wb=Workbook(); ws=wb.active; ws.title='Report'
-    ws.append([title]); ws.append(['Generated', datetime.utcnow().isoformat()+'Z']); ws.append(['Disclaimer','Synthetic/demo or authorized-data output. Predictions are decision-support estimates, not verdicts.']); ws.append([])
+    ws.append([title]); ws.append(['Generated', datetime.utcnow().isoformat()+'Z']); ws.append([])
     if rows:
         ws.append(list(rows[0].keys()))
         for r in rows: ws.append([r.get(k) for k in rows[0].keys()])

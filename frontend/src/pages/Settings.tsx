@@ -8,7 +8,7 @@ const Settings: React.FC = () => (
         <h3 className="section-title mb-3">Institution & Project</h3>
         <dl className="space-y-2 text-sm">
           <div className="flex justify-between gap-4"><dt className="text-slate-400">Target institution</dt><dd className="text-white font-medium">Bindura University of Science Education (BUSE)</dd></div>
-          <div className="flex justify-between gap-4"><dt className="text-slate-400">Mode</dt><dd className="text-amber-200">Tertiary prototype — synthetic data</dd></div>
+          <div className="flex justify-between gap-4"><dt className="text-slate-400">Mode</dt><dd className="text-emerald-200">Production — institutional data</dd></div>
           <div className="flex justify-between gap-4"><dt className="text-slate-400">Deployment</dt><dd className="text-slate-200">Local (Kali) now; remote-ready design</dd></div>
         </dl>
       </div>

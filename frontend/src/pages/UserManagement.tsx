@@ -29,16 +29,8 @@ const UserManagement: React.FC = () => {
       const r = await api.get('/users', { params: { limit: 200 } })
       setUsers(Array.isArray(r.data) ? r.data : (r.data?.items || []))
     } catch (e: any) {
-      // fallback to showing seeded demo accounts info if endpoint differs
-      setUsers([
-        { id: 1, email: 'admin@edupredict.com', full_name: 'System Administrator', is_active: true, roles: ['system_admin'] },
-        { id: 2, email: 'lecturer@edupredict.com', full_name: 'Dr. Sarah Johnson (Lecturer)', is_active: true, roles: ['lecturer'] },
-        { id: 3, email: 'advisor@edupredict.com', full_name: 'Michael Chen (Academic Advisor)', is_active: true, roles: ['academic_advisor'] },
-        { id: 4, email: 'hod@edupredict.com', full_name: 'Prof. Emily Williams (HOD)', is_active: true, roles: ['head_of_department'] },
-        { id: 5, email: 'dean@edupredict.com', full_name: 'Dr. Robert Davis (Dean)', is_active: true, roles: ['dean'] },
-        { id: 6, email: 'registry@edupredict.com', full_name: 'Grace Moyo (Registry)', is_active: true, roles: ['registry'] },
-      ])
-      setMsg({ type: 'err', text: e?.response?.data?.detail || 'Could not load users from API; showing known demo accounts.' })
+      setUsers([])
+      setMsg({ type: 'err', text: e?.response?.data?.detail || 'Could not load users from API.' })
     } finally { setLoading(false) }
   }
   useEffect(() => { load() }, [])

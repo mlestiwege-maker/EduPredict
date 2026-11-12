@@ -15,7 +15,7 @@ async def list_datasets(current_user=Depends(require_user)):
     
     base=Path(__file__).resolve().parents[4]/'ml/data/sample/buse'
     meta=json.loads((base/'README.json').read_text()) if (base/'README.json').exists() else {}
-    return {'synthetic_datasets':[{'name':'BUSE synthetic demo','path':str(base),'files':[p.name for p in base.glob('*.csv')],'meta':meta}],'recommended_public_datasets':[{'name':'Open University Learning Analytics Dataset (OULAD)','why':'LMS + assessments + outcomes; strong EDM benchmark'},{'name':'UCI Student Performance (Cortez & Silva)','why':'Small benchmark for pass/fail/regression'},{'name':'UCI Higher Education Students Performance','why':'Tertiary-oriented attributes (verify version/provenance)'},{'name':'xAPI-Edu-Data / Kaggle education sets','why':'Quick prototyping; check licenses and schema fit'}],'note':'Synthetic data loaded for demo. Use public datasets only under their licenses; real BUSE data requires permission/ethics/data-protection compliance.'}
+    return {'institutional_datasets':[{'name':'BUSE institutional','path':str(base),'files':[p.name for p in base.glob('*.csv')],'meta':meta}],'recommended_public_datasets':[{'name':'Open University Learning Analytics Dataset (OULAD)','why':'LMS + assessments + outcomes; strong EDM benchmark'},{'name':'UCI Student Performance (Cortez & Silva)','why':'Small benchmark for pass/fail/regression'},{'name':'UCI Higher Education Students Performance','why':'Tertiary-oriented attributes (verify version/provenance)'},{'name':'xAPI-Edu-Data / Kaggle education sets','why':'Quick prototyping; check licenses and schema fit'}]}
 
 @router.post('/load-demo')
 async def load_demo(current_user=Depends(require_user)):

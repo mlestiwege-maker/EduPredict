@@ -13,7 +13,7 @@ const ModelManagement: React.FC = () => {
   const rows = (result?.results || result?.selected_metrics && [result.selected_metrics] || []) as any[]
   return (
     <div className="page">
-      <div><h1 className="page-title">Model Management & AI</h1><p className="page-subtitle">Train/evaluate 6 models (LR, DT, RF, SVM, Gradient Boosting, MLP) and generate checkpoint predictions on the loaded synthetic BUSE dataset.</p></div>
+      <div><h1 className="page-title">Model Management & AI</h1><p className="page-subtitle">Train/evaluate 6 models (LR, DT, RF, SVM, Gradient Boosting, MLP) and generate checkpoint predictions on institutional data.</p></div>
       <div className="stat-grid">
         <StatCard title="Models" value={status?.models?.length ?? 0} icon="🤖" color="blue" />
         <StatCard title="Reports" value={status?.reports?.length ?? 0} icon="📄" color="purple" />
@@ -36,7 +36,7 @@ const ModelManagement: React.FC = () => {
             <div className="space-y-3 text-sm">
               {result.selected_model && <div><span className="text-slate-400">Selected model:</span> <b className="text-white">{result.selected_model}</b> · records {result.n_records} · test {result.n_test}</div>}
               {result.model_name && result.summary && <div><span className="text-slate-400">Prediction run:</span> <b className="text-white">{result.model_name}</b> · total {result.total_predictions} · High {result.summary.high} / Medium {result.summary.medium} / Low {result.summary.low}</div>}
-              {result.disclaimer && <div className="rounded-xl border border-amber-500/20 bg-amber-500/10 p-3 text-amber-100">{result.disclaimer}</div>}
+              
               {!!rows.length && <div className="table-wrap"><table className="table"><thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>ROC-AUC</th><th>Brier</th></tr></thead><tbody>{rows.map((r:any,i:number)=>(<tr key={i}><td className="font-medium text-white">{r.model}</td><td>{r.accuracy}</td><td>{r.precision}</td><td>{r.recall}</td><td>{r.f1}</td><td>{r.roc_auc}</td><td>{r.brier}</td></tr>))}</tbody></table></div>}
               <pre className="overflow-auto rounded-xl bg-slate-950/60 p-3 text-xs text-slate-300 max-h-72">{JSON.stringify(result, null, 2)}</pre>
             </div>

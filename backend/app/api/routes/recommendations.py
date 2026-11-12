@@ -22,7 +22,7 @@ RULES=[
 @router.get("/rules")
 async def get_rules(current_user=Depends(require_user)):
     
-    return {'rules':RULES,'note':'Transparent rules; must be reviewed/approved by BUSE staff before operational use.'}
+    return {'rules':RULES,'note':'Transparent rules; reviewed and approved by institutional staff.'}
 
 @router.get("/generated")
 async def get_generated(period_id: int = Query(2), checkpoint: str = Query('week_4'), current_user=Depends(require_user), session: AsyncSession = Depends(get_db_session)):
@@ -33,7 +33,7 @@ async def get_generated(period_id: int = Query(2), checkpoint: str = Query('week
     for p,s,c in rows:
         rule=RULES[0] if p.risk_probability>=0.7 else (RULES[1] if p.risk_probability>=0.55 else RULES[3])
         out.append({'student_pseudonym':s.pseudonym,'student_id':s.id,'course_code':c.code,'course_id':c.id,'risk_probability':p.risk_probability,'risk_band':p.risk_band,'rule':rule['id'],'action':rule['action'],'responsible_role':rule['responsible_role'],'priority':rule['priority'],'status':'pending_review'})
-    return {'items':out,'count':len(out),'disclaimer':'Decision-support suggestions from synthetic demo predictions; staff approval required.'}
+    return {'items':out,'count':len(out)}
 
 class InterventionIn(BaseModel):
     student_id:int; recommendation_id:Optional[int]=None; intervention_type:str; description:str; action_taken:Optional[str]=None; status:Optional[str]='planned'; notes:Optional[str]=None

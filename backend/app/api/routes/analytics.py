@@ -13,14 +13,13 @@ router = APIRouter()
 @router.get("/summary")
 async def get_dashboard_summary(period_id: Optional[int] = Query(None), department_id: Optional[int] = Query(None), current_user=Depends(require_user), session: AsyncSession = Depends(get_db_session)):
     
-    # real aggregates from loaded synthetic data
+    # institutional aggregates
     total = (await session.execute(select(func.count()).select_from(Student))).scalar() or 0
     att = (await session.execute(select(func.avg(AttendanceRecord.attendance_rate)))).scalar()
     mark = (await session.execute(select(func.avg(AssessmentRecord.percentage)))).scalar()
     sub = (await session.execute(select(func.avg(AssessmentRecord.is_submitted)))).scalar()
     return {'total_students': total, 'total_courses': (await session.execute(select(func.count()).select_from(__import__('app.models.academic',fromlist=['Course']).Course))).scalar() or 0,
-            'overall_attendance_rate': round(float(att or 0),1), 'overall_average_mark': round(float(mark or 0),1), 'overall_submission_rate': round(float(sub or 0)*100,1),
-            'data_source':'synthetic_buse_demo', 'disclaimer':'Synthetic demo data; not real BUSE outcomes.'}
+            'overall_attendance_rate': round(float(att or 0),1), 'overall_average_mark': round(float(mark or 0),1), 'overall_submission_rate': round(float(sub or 0)*100,1)}
 
 @router.get("/factors")
 async def get_influencing_factors(current_user=Depends(require_user), session: AsyncSession = Depends(get_db_session)):

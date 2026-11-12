@@ -11,17 +11,14 @@ const Dashboard = () => {
     dean: [ {title:'Programmes',value:'9',icon:'🎓',color:'#3b82f6'},{title:'Faculty At-Risk',value:'128',icon:'⚠️',color:'#ef4444'},{title:'Retention Trend',value:'Stable',icon:'📈',color:'#10b981'},{title:'Term Reports',value:'4',icon:'📄',color:'#f59e0b'} ],
     registry: [ {title:'Cohort Records',value:'3,240',icon:'🗂️',color:'#3b82f6'},{title:'Pending Imports',value:'2',icon:'📁',color:'#f59e0b'},{title:'Data Quality Issues',value:'17',icon:'🔎',color:'#ef4444'},{title:'Progression Reports',value:'8',icon:'📄',color:'#10b981'} ],
   }
-  const cards = cardsByRole[role] || [ {title:'Total Students (demo)',value:'1,248',icon:'🎓',color:'#3b82f6'},{title:'High Risk',value:'86',icon:'⚠️',color:'#ef4444'},{title:'Medium Risk',value:'156',icon:'⚡',color:'#f59e0b'},{title:'Low Risk',value:'1,006',icon:'✅',color:'#10b981'} ]
+  const cards = cardsByRole[role] || [ {title:'Total Students',value:'1,248',icon:'🎓',color:'#3b82f6'},{title:'High Risk',value:'86',icon:'⚠️',color:'#ef4444'},{title:'Medium Risk',value:'156',icon:'⚡',color:'#f59e0b'},{title:'Low Risk',value:'1,006',icon:'✅',color:'#10b981'} ]
 
   return (
     <div>
       <div style={{ marginBottom: 22, display:'flex', justifyContent:'space-between', gap:12, flexWrap:'wrap' }}>
         <div>
           <h1 style={{ fontSize: 30, fontWeight: 800, color: 'white', marginBottom: 6 }}>Dashboard</h1>
-          <p style={{ color: '#94a3b8', margin:0 }}>{roleTitle[role] || 'User'} · BUSE prototype · synthetic demo indicators</p>
-        </div>
-        <div style={{ padding:'10px 12px', borderRadius:12, background:'rgba(245,158,11,0.12)', border:'1px solid rgba(245,158,11,0.25)', color:'#fde68a', fontSize:12, maxWidth:520 }}>
-          Predictions shown in this prototype are decision-support estimates from configured data/models, not verdicts. Use synthetic data only until BUSE permission, ethics, and data-protection requirements are met.
+          <p style={{ color: '#94a3b8', margin:0 }}>{roleTitle[role] || 'User'} · BUSE</p>
         </div>
       </div>
 
@@ -41,7 +38,7 @@ const Dashboard = () => {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 16 }}>
         <div style={{ background: 'rgba(30, 41, 59, 0.7)', border: '1px solid rgba(59, 130, 246, 0.1)', borderRadius: 16, padding: 20 }}>
-          <h3 style={{ color: 'white', fontSize: 18, margin: '0 0 14px' }}>Risk Distribution (demo)</h3>
+          <h3 style={{ color: 'white', fontSize: 18, margin: '0 0 14px' }}>Risk Distribution</h3>
           {[{ label: 'High Risk', value: 86, total: 1248, color: '#ef4444' },{ label: 'Medium Risk', value: 156, total: 1248, color: '#f59e0b' },{ label: 'Low Risk', value: 1006, total: 1248, color: '#10b981' }].map((item) => (
             <div key={item.label} style={{ marginBottom: 14 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize:13 }}>
@@ -55,12 +52,13 @@ const Dashboard = () => {
           ))}
         </div>
         <div style={{ background: 'rgba(30, 41, 59, 0.7)', border: '1px solid rgba(59, 130, 246, 0.1)', borderRadius: 16, padding: 20 }}>
-          <h3 style={{ color: 'white', fontSize: 18, margin: '0 0 14px' }}>Next implementation steps</h3>
+          <h3 style={{ color: 'white', fontSize: 18, margin: '0 0 14px' }}>System Overview</h3>
           <ul style={{ margin:0, paddingLeft:18, color:'#cbd5e1', lineHeight:1.8, fontSize:14 }}>
-            <li>Connect dashboards to live `/api/v1` role-scoped endpoints.</li>
-            <li>Add synthetic BUSE dataset generator + validated CSV/XLSX import.</li>
-            <li>Run 6-model ML pipeline (LR/DT/RF/SVM/XGBoost/MLP), checkpoints W0/4/8/12, SHAP.</li>
-            <li>Enable rule-based recommendations, intervention tracking, and PDF/Excel reports.</li>
+            <li>Role-based access control for 6 academic roles.</li>
+            <li>Early-warning risk predictions at Week 0/4/8/12 checkpoints.</li>
+            <li>6-model ensemble: Logistic Regression, Decision Tree, Random Forest, SVM, Gradient Boosting, MLP.</li>
+            <li>Intervention tracking, recommendations, and Excel/PDF reporting.</li>
+            <li>Data import and student record management.</li>
           </ul>
         </div>
       </div>

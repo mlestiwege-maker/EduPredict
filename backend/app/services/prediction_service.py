@@ -1,4 +1,4 @@
-"""Prediction service: connects ML runtime + DB persistence (synthetic demo capable)."""
+"""Prediction service: connects ML runtime + DB persistence."""
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 from typing import Optional, Dict, Any, List
@@ -19,7 +19,7 @@ class PredictionService:
         out = ml_predict(checkpoint)
         if out.get('status')=='error': return out
         # persist
-        run = PredictionRun(model_version=out['model_version'], checkpoint=checkpoint, period_id=period_id, status='completed', run_metadata={'model_name':out['model_name'],'synthetic_demo':True})
+        run = PredictionRun(model_version=out['model_version'], checkpoint=checkpoint, period_id=period_id, status='completed', run_metadata={'model_name':out['model_name']})
         self.session.add(run); await self.session.flush(); await self.session.refresh(run)
         stu_map, course_map, period_map = await self._maps()
         # clear previous for checkpoint+period
@@ -40,7 +40,7 @@ class PredictionService:
                 self.session.add(PredictionExplanation(prediction_id=sp.id,feature_name=e['feature_name'],feature_value=float(e.get('feature_value') or 0),shap_value=float(e.get('shap_value') or e.get('impact') or 0),impact=e.get('impact'),description=e.get('description')))
         run.total_predictions=hi+med+lo; run.high_risk_count=hi; run.medium_risk_count=med; run.low_risk_count=lo
         await self.session.commit()
-        return {'status':'ok','run_id':run.id,'checkpoint':checkpoint,'model_version':out['model_version'],'model_name':out['model_name'],'total_predictions':run.total_predictions,'summary':{'high':hi,'medium':med,'low':lo},'disclaimer':out.get('disclaimer')}
+        return {'status':'ok','run_id':run.id,'checkpoint':checkpoint,'model_version':out['model_version'],'model_name':out['model_name'],'total_predictions':run.total_predictions,'summary':{'high':hi,'medium':med,'low':lo}}
 
     async def train_models(self, checkpoint: str):
         return ml_train(checkpoint)

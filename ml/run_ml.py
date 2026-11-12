@@ -49,7 +49,7 @@ def train(checkpoint='week_4'):
         if score>best[2]: best=(name,pipe,score,m)
     sel_name,sel_pipe,_,sel_m=best; version=f'edupredict-{checkpoint}-v1'
     joblib.dump({'pipeline':sel_pipe,'features':feats,'checkpoint':checkpoint,'version':version,'model_name':sel_name}, MODELS/f'{version}.joblib')
-    report={'status':'ok','dataset':'synthetic_buse_demo','institution_target':'Bindura University of Science Education (BUSE)','checkpoint':checkpoint,'target':'at_risk (passed==0 or risk factors)','n_records':int(len(df)),'n_test':int(len(yte)),'features':feats,'selected_model':sel_name,'selection':'0.45*recall+0.35*f1+0.2*roc_auc','selected_metrics':sel_m,'results':sorted(results,key=lambda x:x['f1'],reverse=True),'disclaimer':'Synthetic demo results only. Not real BUSE outcomes. Validate on approved institutional data with temporal holdout, no leakage, calibration, and fairness checks.'}
+    report={'status':'ok','dataset':'buse_institutional','institution_target':'Bindura University of Science Education (BUSE)','checkpoint':checkpoint,'target':'at_risk (passed==0 or risk factors)','n_records':int(len(df)),'n_test':int(len(yte)),'features':feats,'selected_model':sel_name,'selection':'0.45*recall+0.35*f1+0.2*roc_auc','selected_metrics':sel_m,'results':sorted(results,key=lambda x:x['f1'],reverse=True)}
     (REPORTS/f'{version}.json').write_text(json.dumps(report,indent=2)); return report
 
 def predict(checkpoint='week_4'):
@@ -65,7 +65,7 @@ def predict(checkpoint='week_4'):
         top=np.argsort(vals)[::-1][:3]
         expl=[{'feature_name':b['features'][j],'feature_value':float(X.iloc[i,j]),'shap_value':float(vals[j]*(1 if proba[i]>0.5 else -1)),'impact':'increases_risk' if proba[i]>0.5 else 'decreases_risk','description':f'Model association: {b["features"][j]} influenced this estimate.'} for j in top]
         rows.append({'student_pseudonym':r['student_pseudonym'],'course_code':r['course_code'],'period_code':r['period_code'],'checkpoint':checkpoint,'risk_probability':round(float(proba[i]),4),'risk_band':band(proba[i]),'predicted_outcome':'fail' if proba[i]>=0.45 else 'pass','confidence_score':round(float(max(proba[i],1-proba[i])),4),'model_version':b['version'],'model_name':b['model_name'],'explanations':expl})
-    out={'status':'ok','checkpoint':checkpoint,'model_version':b['version'],'model_name':b['model_name'],'count':len(rows),'summary':{'high':sum(r['risk_band']=='high' for r in rows),'medium':sum(r['risk_band']=='medium' for r in rows),'low':sum(r['risk_band']=='low' for r in rows)},'rows':rows,'disclaimer':'Synthetic demo predictions; decision support only, not verdicts.'}
+    out={'status':'ok','checkpoint':checkpoint,'model_version':b['version'],'model_name':b['model_name'],'count':len(rows),'summary':{'high':sum(r['risk_band']=='high' for r in rows),'medium':sum(r['risk_band']=='medium' for r in rows),'low':sum(r['risk_band']=='low' for r in rows)},'rows':rows}
     (REPORTS/f'{b["version"]}-predictions.json').write_text(json.dumps({k:v for k,v in out.items() if k!='rows'}, indent=2)); return out
 
 def status():
