@@ -30,7 +30,7 @@ def run():
             except Exception: pass
         for r in dep.itertuples():
             cx.execute(text('insert into departments(name,code,description) values (:n,:c,:d)'), dict(n=r.department_name,c=r.department_code,d=f'BUSE {r.department_name}'))
-        dep_map = {r.code:i for i,r in enumerate(cx.execute(text('select id,code from departments')).mappings(),1)}
+        dep_map = {r.code:r.id for r in cx.execute(text('select id,code from departments')).mappings()}
         for r in per.itertuples():
             cx.execute(text('insert into academic_periods(year,semester,term_start,term_end,is_active) values (:y,:s,:ts,:te,:a)'), dict(y=int(r.year),s=r.period_code,ts=str(r.term_start),te=str(r.term_end),a=bool(r.is_active)))
         per_map = {r.semester:r.id for r in cx.execute(text('select id,semester from academic_periods')).mappings()}
