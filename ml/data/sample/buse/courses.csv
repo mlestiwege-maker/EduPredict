@@ -1,0 +1,6 @@
+course_code,course_name,department_code,credits,level
+CS101,Introduction to Programming,CS,12,100
+CS201,Data Structures,CS,12,200
+MATH101,Calculus I,MATH,12,100
+STAT201,Probability and Statistics,MATH,12,200
+BUS101,Principles of Management,BUS,12,100
